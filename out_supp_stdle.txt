@@ -1,0 +1,67 @@
+
+==============================================================================
+0. Supply chain example (Option B data), D_T = {v2, v3}
+==============================================================================
+mu     W=2.10 c=2W/n=0.8400 c_T=1.6400 tr(Q_T)=8.2000=2W+2g=8.2000 tr(Q_T^2)=22.0800 sum(tau-c)^2=11.8320
+       bounds: max(2g, sqrt(sum))=4.0000 (2g=4, sqrt=3.4398) <= STDLE=5.4960 <= 7.6916;  old lower bound max|tau-c|=2.8053;  B(LE,SLE)=2.9597 < 2g=4: True
+gamma  W=1.80 c=2W/n=0.7200 c_T=1.5200 tr(Q_T)=7.6000=2W+2g=7.6000 tr(Q_T^2)=18.9800 sum(tau-c)^2=10.6280
+       bounds: max(2g, sqrt(sum))=4.0000 (2g=4, sqrt=3.2601) <= STDLE=5.3049 <= 7.2897;  old lower bound max|tau-c|=2.5840;  B(LE,SLE)=2.4372 < 2g=4: True
+beta   W=1.20 c=2W/n=0.4800 c_T=1.2800 tr(Q_T)=6.4000=2W+2g=6.4000 tr(Q_T^2)=14.4800 sum(tau-c)^2=9.4880
+       bounds: max(2g, sqrt(sum))=4.0000 (2g=4, sqrt=3.0803) <= STDLE=4.8267 <= 6.8877;  old lower bound max|tau-c|=2.3704;  B(LE,SLE)=1.6248 < 2g=4: True
+all identities of Part A and B hold on the example (assertions passed)
+old data (mu2(v2,v3)=0.3): tr(Q_T^2)=20.7200, upper bound=7.4565, B=2.7568  -> the 20.72, 7.4565 and 2.757 of the task text refer to this pre-Step-1 example
+
+==============================================================================
+Centring: mean eigenvalue of Q is c, of Q_T is c_T; mean-centred variant (sensitivity only)
+==============================================================================
+             c    c_T       LE      SLE      TDE    STDLE  STDLE^c
+mu        0.84   1.64   2.6050   2.2139   3.2236   5.4960   6.2044
+gamma     0.72   1.52   2.0616   1.9673   3.0559   5.3049   5.8050
+beta      0.48   1.28   1.3744   1.3115   2.6194   4.8267   5.4169
+
+==============================================================================
+1. Structure checks on random weighted graphs (every identity / inequality of Parts A and B)
+==============================================================================
+failures: none
+
+==============================================================================
+2. Search: how often do STDLE > LE, STDLE > SLE, STDLE > TDE hold?
+==============================================================================
+matrix-uniform   9071 (instance, Rule-S set) pairs: STDLE>LE  99.87%  STDLE>SLE 100.00%  STDLE>TDE 100.00%  | sufficient condition holds in   6.01%  (then claim holds in 100.00%)
+matrix-discrete  11098 (instance, Rule-S set) pairs: STDLE>LE  99.12%  STDLE>SLE 100.00%  STDLE>TDE 100.00%  | sufficient condition holds in   3.77%  (then claim holds in 100.00%)
+uniform-weight   18409 (instance, Rule-S set) pairs: STDLE>LE  93.64%  STDLE>SLE 100.00%  STDLE>TDE 100.00%  | sufficient condition holds in  21.03%  (then claim holds in 100.00%)
+hfg-strong       16346 (instance, Rule-S set) pairs: STDLE>LE 100.00%  STDLE>SLE 100.00%  STDLE>TDE 100.00%  | sufficient condition holds in  73.98%  (then claim holds in 100.00%)
+
+counterexamples found (smallest n):
+  STDLE <= LE: n=7, D=[1, 7], gamma_t=2, values {'E': np.float64(8.7651), 'LE': np.float64(12.075), 'SLE': np.float64(9.8218), 'TDE': np.float64(8.47), 'TDLE': np.float64(12.075), 'STDLE': np.float64(11.9768), 'STDLE_c': np.float64(12.6978)}, B=14.199
+  STDLE <= SLE: none
+  STDLE <= TDE: none
+
+smallest counterexamples among uniform-weight HFGs (every edge strong, so valid for the method):
+  STDLE <= LE: n=7, w=0.9895, arcs=[(1, 3), (1, 4), (1, 5), (1, 6), (1, 7), (2, 3), (2, 6), (3, 4), (3, 5), (4, 5), (4, 6), (4, 7), (5, 6), (5, 7), (6, 7)], D=[1, 6], gamma_t=2, LE=13.9924 SLE=10.7904 TDE=10.7622 STDLE=13.4488
+  STDLE <= SLE: none
+  STDLE <= TDE: none
+  explicit weight matrix (STDLE <= LE): [[0.0, 1.0, 0.0, 1.0, 1.0, 1.0, 0.75], [1.0, 0.0, 0.25, 0.75, 0.75, 0.5, 1.0], [0.0, 0.25, 0.0, 0.25, 0.25, 0.0, 0.5], [1.0, 0.75, 0.25, 0.0, 0.5, 1.0, 0.25], [1.0, 0.75, 0.25, 0.5, 0.0, 0.75, 1.0], [1.0, 0.5, 0.0, 1.0, 0.75, 0.0, 0.5], [0.75, 1.0, 0.5, 0.25, 1.0, 0.5, 0.0]]
+
+==============================================================================
+2b. Smallest explicit counterexamples: uniform HFG (vertices (1,0,0), edges (0.9,0,0)); violation for EVERY minimum set
+==============================================================================
+STDLE < LE for all 6 minimum set(s): n=6, 7 arcs [(1, 2), (1, 3), (1, 4), (2, 3), (2, 4), (3, 4), (5, 6)], gamma_t=4
+    D=[1, 2, 5, 6]: LE=9.0000 SLE=6.6000 TDE=6.7363 STDLE=8.8000
+    D=[1, 3, 5, 6]: LE=9.0000 SLE=6.6000 TDE=6.7363 STDLE=8.8000
+    D=[1, 4, 5, 6]: LE=9.0000 SLE=6.6000 TDE=6.7363 STDLE=8.8000
+    D=[2, 3, 5, 6]: LE=9.0000 SLE=6.6000 TDE=6.7363 STDLE=8.8000
+    D=[2, 4, 5, 6]: LE=9.0000 SLE=6.6000 TDE=6.7363 STDLE=8.8000
+    D=[3, 4, 5, 6]: LE=9.0000 SLE=6.6000 TDE=6.7363 STDLE=8.8000
+    2*gamma_t=8, B=9.6933
+no graph with <= 7 vertices where STDLE < SLE for every minimum set (w=0.9)
+no graph with <= 7 vertices where STDLE < TDE for every minimum set (w=0.9)
+connected: STDLE < LE for all 1 minimum set(s): n=7, 11 arcs [(1, 2), (1, 4), (1, 5), (2, 3), (2, 4), (2, 5), (3, 4), (3, 5), (4, 5), (5, 6), (6, 7)], gamma_t=2
+    D=[5, 6]: LE=11.9210 SLE=9.8134 TDE=8.6307 STDLE=11.4779
+
+violations for some minimum set, not for the set selected by Rule (S):
+  STDLE < SLE: n=8, gamma_t=4, 13 minimum sets, 4 violate; D=[1, 2, 3, 6]: SLE=12.2912 > STDLE=12.1316; Rule (S) selects [[2, 4, 6, 8]] for which STDLE > SLE
+  STDLE < TDE: n=7, gamma_t=2, 7 minimum sets, 1 violate; D=[2, 6]: TDE=10.6662 > STDLE=10.4403; Rule (S) selects [[1, 6], [4, 6], [5, 6]] for which STDLE > TDE
+
+figures written
+ALL ASSERTIONS PASSED

@@ -1,0 +1,93 @@
+
+==============================================================================
+0. Five-vertex example (corrected strong arcs of Step 1, Rule S of Step 2)
+==============================================================================
+strong arcs: 6 of 6 (definition == O(n^2) test: True)
+exhaustive: gamma_t = 2  minimum sets [[2, 3], [2, 4], [3, 5]]
+IP        : gamma_t = 2  minimum sets [[2, 3], [2, 4], [3, 5]]
+Rule (S): omega = {(2, 3): 1.8, (2, 4): 1.4, (3, 5): 1.4} -> selected [[2, 3]]
+D_T            TDE_mu   TDE_ga   TDE_be  STDLE_mu  STDLE_ga  STDLE_be
+[2, 3]         3.2236   3.0559   2.6194    5.4960    5.3049    4.8267
+[2, 4]         3.3437   3.1191   2.6829    5.3928    5.2030    4.7744
+[3, 5]         3.3437   3.1191   2.6829    5.3928    5.2030    4.7744
+values agree with Step 2 (results_step2.json): True
+original (closed-nbhd) greedy on the example: [2, 3]  open-nbhd greedy: [2, 3]
+
+==============================================================================
+1. Part A -- audit of the greedy step
+==============================================================================
+A2  path v1-v2-v3, original greedy (closed neighbourhoods) returns [2] | dominating: True | total dominating: False
+    exact: gamma_t = 2 sets [[1, 2], [2, 3]] | repaired greedy [1, 2]
+A1  graph on v1..v8 with arcs [(1, 2), (1, 6), (2, 8), (3, 5), (3, 7), (4, 6), (4, 7), (4, 8)]
+    exact gamma_t = 4  minimum sets [[1, 2, 3, 7]]
+    greedy (open neighbourhoods), all tie-breakings give sizes [5]
+    greedy (closed + repair) sizes -> 6 ; plain closed greedy total? False
+    trace (chosen vertex, newly covered, vertices attaining the maximum): [(4, 3, [4]), (6, 2, [6, 7, 8]), (1, 1, [1, 3, 5, 7, 8]), (3, 1, [3, 5, 7]), (5, 1, [5, 7])]
+    greedy output [1, 3, 4, 5, 6] size 5 ; optimum size 4
+    graphs with <= 7 vertices (all isomorphism classes) where every tie-breaking is suboptimal: 0
+    realised as an HFG (all vertices (.5,.3,.2), all edges (.4,.3,.2)): HFG conditions hold and all arcs strong
+A3  HFG on a triangle: strong arcs = [(2, 3)] -> v1 isolated in the strong-arc graph; total dominating set exists: False
+
+==============================================================================
+2. Verification of the building blocks
+==============================================================================
+2a  strong-arc test (spanning-tree bottleneck) vs literal definition: 1486 random weighted graphs, 0 mismatches
+    strong-arc graph on complete graphs, seconds: [(40, 0.002), (80, 0.009), (160, 0.05), (320, 0.175)]  successive ratios: [4.0, 5.62, 3.49] (quadratic: 4)
+2b  exhaustive == integer program (all minimum sets, no-good cuts) == numpy brute force on 210 random graphs: True
+
+==============================================================================
+3. Random experiments: exact vs greedy
+==============================================================================
+1950 instances; both greedy variants always total dominating; Chvatal bound H(Delta) respected in all
+ALL  : {
+ "open": {
+  "opt": 0.8292307692307692,
+  "mean_gap": 0.1794871794871795,
+  "mean_rel": 0.04682214082214082,
+  "max_gap": 3,
+  "max_ratio": 1.6666666666666667
+ },
+ "rep": {
+  "opt": 0.44461538461538463,
+  "mean_gap": 0.8676923076923077,
+  "mean_rel": 0.22364306064306064,
+  "max_gap": 5,
+  "max_ratio": 2.3333333333333335
+ },
+ "naive_not_total": 0.6948717948717948,
+ "naive_total_size_le_opt": 631,
+ "mean_nsets": 9.829230769230769,
+ "mean_k": 3.7605128205128207
+}
+mean degree 3: open-greedy optimal 81.4% (mean gap 0.198, max 3), closed+repair optimal 32.6% (mean gap 1.106, max 5), plain closed greedy NOT total in 81.4%
+mean degree 4: open-greedy optimal 80.3% (mean gap 0.205, max 2), closed+repair optimal 41.2% (mean gap 0.923, max 5), plain closed greedy NOT total in 70.0%
+mean degree 6: open-greedy optimal 87.1% (mean gap 0.135, max 2), closed+repair optimal 59.5% (mean gap 0.574, max 4), plain closed greedy NOT total in 57.1%
+plain closed greedy returns fewer vertices than gamma_t in 631 of 1950 instances (it only dominates)
+
+median runtimes (ms)   n: exhaustive / IP(HiGHS) / greedy
+  n= 8:      0.01 /    8.66 /  0.013   mean gamma_t=2.18
+  n= 9:      0.01 /    8.59 /  0.015   mean gamma_t=2.49
+  n=10:      0.02 /    8.92 /  0.018   mean gamma_t=2.57
+  n=11:      0.05 /    8.76 /  0.017   mean gamma_t=2.93
+  n=12:      0.06 /   10.51 /  0.020   mean gamma_t=3.13
+  n=13:      0.13 /    8.85 /  0.019   mean gamma_t=3.43
+  n=14:      0.29 /    9.15 /  0.019   mean gamma_t=3.80
+  n=15:      0.43 /    9.85 /  0.022   mean gamma_t=4.07
+  n=16:      0.54 /    8.25 /  0.019   mean gamma_t=4.25
+  n=17:      1.17 /    9.61 /  0.023   mean gamma_t=4.57
+  n=18:      2.90 /    9.84 /  0.025   mean gamma_t=4.88
+  n=19:      3.95 /   10.13 /  0.028   mean gamma_t=5.18
+  n=20:      9.10 /   11.84 /  0.030   mean gamma_t=5.41
+
+HFG-derived instances (random HFG -> strong-arc graph -> exact vs greedy):
+  fine (p=0.3, 3 mu-levels)    n= 8: strong arcs  76.4% of edges; no TDS (isolated vertex in strong-arc graph) in 56/100; open-greedy optimal in 95.5% of the 44 solvable (max gap 1)
+  fine (p=0.3, 3 mu-levels)    n=12: strong arcs  43.4% of edges; no TDS (isolated vertex in strong-arc graph) in 74/100; open-greedy optimal in 92.3% of the 26 solvable (max gap 1)
+  fine (p=0.3, 3 mu-levels)    n=16: strong arcs  26.0% of edges; no TDS (isolated vertex in strong-arc graph) in 95/100; open-greedy optimal in 60.0% of the 5 solvable (max gap 1)
+  fine (p=0.3, 3 mu-levels)    n=20: strong arcs  16.3% of edges; no TDS (isolated vertex in strong-arc graph) in 100/100; open-greedy optimal in nan% of the 0 solvable (max gap -)
+  coarse (p=0.5, 2 mu-levels)  n= 8: strong arcs  44.9% of edges; no TDS (isolated vertex in strong-arc graph) in 57/100; open-greedy optimal in 95.3% of the 43 solvable (max gap 1)
+  coarse (p=0.5, 2 mu-levels)  n=12: strong arcs  19.5% of edges; no TDS (isolated vertex in strong-arc graph) in 98/100; open-greedy optimal in 100.0% of the 2 solvable (max gap 0)
+  coarse (p=0.5, 2 mu-levels)  n=16: strong arcs  14.2% of edges; no TDS (isolated vertex in strong-arc graph) in 100/100; open-greedy optimal in nan% of the 0 solvable (max gap -)
+  coarse (p=0.5, 2 mu-levels)  n=20: strong arcs  12.9% of edges; no TDS (isolated vertex in strong-arc graph) in 100/100; open-greedy optimal in nan% of the 0 solvable (max gap -)
+
+figures written to figs
+ALL ASSERTIONS PASSED

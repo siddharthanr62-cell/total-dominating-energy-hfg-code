@@ -1,0 +1,37 @@
+HFG conditions (0)-(4) hold: True
+Strong arcs: 6 of 6
+gamma_t = 2 ; minimum sets: [[2, 3], [2, 4], [3, 5]]
+============================================
+Index             mu       gamma        beta
+============================================
+E             2.2863      1.9021      1.2680
+LE            2.6050      2.0616      1.3744
+SLE           2.2139      1.9673      1.3115
+TDE           3.2236      3.0559      2.6194
+STDLE         5.4960      5.3049      4.8267
+============================================
+mu     tr(T^2)=3.5000  1.8708 <= TDE=3.2236 <= 4.1833
+gamma  tr(T^2)=3.0800  1.7550 <= TDE=3.0559 <= 3.9243
+beta   tr(T^2)=2.4800  1.5748 <= TDE=2.6194 <= 3.5214
+mu     2.8053 <= STDLE=5.4960 <= 7.6916
+gamma  2.5840 <= STDLE=5.3049 <= 7.2897
+beta   2.3704 <= STDLE=4.8267 <= 6.8877
+STDLE/TDE (mu): 1.7049
+Properties of TDE for D_T = {v2, v3}
+mu     tr(T)=2  shifts in [0.2222, 0.7557]  TDE-E=0.9372
+       tr(T^2)=3.5000 = 2*0.75 + 2;  TDE >= 2: True
+gamma  tr(T)=2  shifts in [0.2062, 0.7513]  TDE-E=1.1539
+       tr(T^2)=3.0800 = 2*0.54 + 2;  TDE >= 2: True
+beta   tr(T)=2  shifts in [0.1615, 0.8018]  TDE-E=1.3514
+       tr(T^2)=2.4800 = 2*0.24 + 2;  TDE >= 2: True
+All minimum total dominating sets (omega = mu-weight of
+strong arcs incident with D):
+D=[2, 3]  omega=1.8
+  TDE   3.2236 3.0559 2.6194
+  STDLE 5.4960 5.3049 4.8267
+D=[2, 4]  omega=1.4
+  TDE   3.3437 3.1191 2.6829
+  STDLE 5.3928 5.2030 4.7744
+D=[3, 5]  omega=1.4
+  TDE   3.3437 3.1191 2.6829
+  STDLE 5.3928 5.2030 4.7744

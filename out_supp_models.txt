@@ -1,0 +1,74 @@
+
+==============================================================================
+0. Example
+==============================================================================
+FG   strong arcs=6  gamma_t=2  min sets=[(1, 2), (1, 3), (2, 4)]  Rule S -> (1, 2)  TDE_mu=3.2236  STDLE_mu=5.4960
+IFG  strong arcs=6  gamma_t=2  min sets=[(1, 2), (1, 3), (2, 4)]  Rule S -> (1, 2)  TDE_mu=3.2236  STDLE_mu=5.4960
+HFG  strong arcs=6  gamma_t=2  min sets=[(1, 2), (1, 3), (2, 4)]  Rule S -> (1, 2)  TDE_mu=3.2236  STDLE_mu=5.4960
+
+==============================================================================
+1. Q2: gamma_t >= n/Delta(G_s); hence TDE >= n/Delta, STDLE >= 2n/Delta (random weighted graphs)
+==============================================================================
+2529 instances, violations: 0
+
+==============================================================================
+2. Q2: scaling the beta weights by s in (0,1]  (strong arcs, hence D_T, do not change; limits TDE->gamma_t, STDLE->2 gamma_t)
+==============================================================================
+s=1.0      TDE_beta=2.6194  STDLE_beta=4.8267
+s=0.75     TDE_beta=2.4278  STDLE_beta=4.6020
+s=0.5      TDE_beta=2.2584  STDLE_beta=4.3884
+s=0.25     TDE_beta=2.1149  STDLE_beta=4.1873
+s=0.1      TDE_beta=2.0424  STDLE_beta=4.0732
+s=0.01     TDE_beta=2.0040  STDLE_beta=4.0072
+s=0.0001   TDE_beta=2.0000  STDLE_beta=4.0001
+monotone decreasing as s decreases on the example: TDE True  STDLE True
+mu and gamma indices unchanged when only beta is rescaled (strong arcs unchanged): OK
+limit s->0 gives gamma_t and 2 gamma_t in all 440 random cases; cases where TDE or STDLE is not monotone in s: 0
+
+==============================================================================
+3. Q2: adding edges to the five-vertex example (new edges (0.3,0.3,0.2); strong arcs and D_T recomputed)
+==============================================================================
+|E|=6 strong=6 gamma_t=2 D_T=[2, 3] (#min sets 3) TDE_mu=3.2236 STDLE_mu=5.4960 LE_mu=2.6050
+|E|=7 strong=7 gamma_t=2 D_T=[1, 3] (#min sets 6) TDE_mu=3.2400 STDLE_mu=5.4734 LE_mu=2.5970
+|E|=8 strong=8 gamma_t=2 D_T=[1, 2] (#min sets 8) TDE_mu=3.0753 STDLE_mu=5.3940 LE_mu=2.5815
+|E|=9 strong=9 gamma_t=2 D_T=[2, 3] (#min sets 9) TDE_mu=3.0118 STDLE_mu=5.5489 LE_mu=2.8550
+|E|=10 strong=10 gamma_t=2 D_T=[1, 2] (#min sets 10) TDE_mu=3.2271 STDLE_mu=5.4350 LE_mu=2.6400
+
+==============================================================================
+4. Q2: growth with n (uniform-weight HFGs, every edge strong, w = 0.4; Rule S irrelevant for uniform weights up to symmetry)
+==============================================================================
+d=3 n= 6 mean|E|=  9.4 mean gamma_t=2.09 mean TDE_mu=4.139 mean STDLE_mu=6.802
+d=3 n= 8 mean|E|= 12.6 mean gamma_t=2.53 mean TDE_mu=5.466 mean STDLE_mu=9.311
+d=3 n=10 mean|E|= 16.0 mean gamma_t=3.41 mean TDE_mu=7.102 mean STDLE_mu=12.080
+d=3 n=12 mean|E|= 18.8 mean gamma_t=4.14 mean TDE_mu=8.500 mean STDLE_mu=14.791
+d=3 n=14 mean|E|= 22.6 mean gamma_t=4.52 mean TDE_mu=9.862 mean STDLE_mu=17.108
+d=3 n=16 mean|E|= 25.8 mean gamma_t=5.26 mean TDE_mu=11.377 mean STDLE_mu=19.659
+d=4 n= 6 mean|E|= 11.9 mean gamma_t=2.00 mean TDE_mu=4.268 mean STDLE_mu=6.597
+d=4 n= 8 mean|E|= 15.8 mean gamma_t=2.15 mean TDE_mu=5.674 mean STDLE_mu=8.877
+d=4 n=10 mean|E|= 19.7 mean gamma_t=2.68 mean TDE_mu=7.210 mean STDLE_mu=11.570
+d=4 n=12 mean|E|= 24.1 mean gamma_t=3.38 mean TDE_mu=8.851 mean STDLE_mu=14.416
+d=4 n=14 mean|E|= 27.5 mean gamma_t=3.92 mean TDE_mu=10.357 mean STDLE_mu=16.923
+d=4 n=16 mean|E|= 31.9 mean gamma_t=4.50 mean TDE_mu=11.878 mean STDLE_mu=19.684
+
+==============================================================================
+5. Q7: FG (mu), IFG (mu,gamma) and HFG (mu,gamma,beta) on random HFGs
+==============================================================================
+n=6: 2000 HFGs | TDS exists: FG 1701, IFG 1348, HFG 1025 | IFG has fewer strong arcs than FG in 1029, HFG fewer than IFG in 923 | solvable in all three: 1025, identical minimum sets: 491, gamma_t differs: 394, mean spread of TDE_mu: 0.33016266178247694
+n=8: 2000 HFGs | TDS exists: FG 1889, IFG 1140, HFG 619 | IFG has fewer strong arcs than FG in 1675, HFG fewer than IFG in 1524 | solvable in all three: 619, identical minimum sets: 115, gamma_t differs: 380, mean spread of TDE_mu: 0.5319610256822092
+n=10: 2000 HFGs | TDS exists: FG 1972, IFG 724, HFG 204 | IFG has fewer strong arcs than FG in 1935, HFG fewer than IFG in 1854 | solvable in all three: 204, identical minimum sets: 9, gamma_t differs: 170, mean spread of TDE_mu: 0.7807351364945331
+
+==============================================================================
+5b. Q7: the example with beta(v1v2) lowered to 0.1  (IFG ignores beta, HFG does not)
+==============================================================================
+FG {'arcs': [(1, 2), (1, 3), (2, 3), (2, 4), (3, 5), (4, 5)], 'gamma_t': 2, 'sets': [[2, 3], [2, 4], [3, 5]], 'D': [2, 3], 'TDE_mu': np.float64(3.223591446348721), 'STDLE_mu': np.float64(5.495990788558839)}
+IFG {'arcs': [(1, 2), (1, 3), (2, 3), (2, 4), (3, 5), (4, 5)], 'gamma_t': 2, 'sets': [[2, 3], [2, 4], [3, 5]], 'D': [2, 3], 'TDE_mu': np.float64(3.223591446348721), 'STDLE_mu': np.float64(5.495990788558839)}
+HFG {'arcs': [(1, 3), (2, 3), (2, 4), (3, 5), (4, 5)], 'gamma_t': 2, 'sets': [[2, 3], [3, 5]], 'D': [2, 3], 'TDE_mu': np.float64(3.223591446348721), 'STDLE_mu': np.float64(5.495990788558839)}
+
+==============================================================================
+5c. Q7: the triangle of Lemma 5.1 (v1 isolated in the HFG strong-arc graph)
+==============================================================================
+FG {'arcs': [(1, 2), (1, 3), (2, 3)], 'gamma_t': 2, 'sets': [[1, 2], [1, 3], [2, 3]], 'D': [1, 2], 'TDE_mu': 2.28726167544745, 'STDLE_mu': 4.000000000000001}
+IFG {'arcs': [(1, 3), (2, 3)], 'gamma_t': 2, 'sets': [[1, 3], [2, 3]], 'D': [1, 3], 'TDE_mu': 2.28726167544745, 'STDLE_mu': 3.999999999999999}
+HFG {'arcs': [(2, 3)], 'gamma_t': None}
+
+all assertions passed; results_models.json written
